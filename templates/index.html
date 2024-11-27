@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/teachers">教师</a></li>
+                <li><a href="/courses">课程</a></li>
+                <li><a href="/profile">个人信息</a></li>
+                <li id="auth-status">
+                    <a href="#" id="auth-button">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h2>欢迎来到首页</h2>
+            <p>这是首页的介绍。</p>
+        </section>
+    </main>
+
+    <script>
+        // 检查登录状态
+        async function checkAuthStatus() {
+            const response = await fetch('/auth-status');
+            const authStatus = await response.json();
+            const authButton = document.getElementById('auth-button');
+            if (authStatus.isLoggedIn) {
+                authButton.textContent = '退出登录';
+                authButton.href = '/logout';
+            } else {
+                authButton.textContent = '登录';
+                authButton.href = '/login';
+            }
+        }
+
+        // 初始化时检查登录状态
+        checkAuthStatus();
+
+        // 处理个人信息页面跳转
+        document.getElementById('profile').addEventListener('click', function(event) {
+            event.preventDefault();
+            const authStatusLink = document.getElementById('auth-button');
+            if (!authStatusLink.href.includes('/login')) {
+                window.location.href = '/profile';
+            } else {
+                alert('您尚未登录，请先登录！');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录和注册</title>
+    <link rel="stylesheet" href="/static/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <h2>登录</h2>
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
+            <form action="/login" method="post" id="login-form">
+                <div class="input-group">
+                    <label for="login_username">用户名:</label>
+                    <input type="text" id="login_username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="login_password">密码:</label>
+                    <input type="password" id="login_password" name="password" required>
+                </div>
+                <button type="submit">登录</button>
+            </form>
+            <button class="switch-form" onclick="toggleForms()">注册新账户</button>
+        </div>
+
+        <div class="register-container" style="display: none;">
+            <h2>注册</h2>
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
+            <form action="/register" method="post" id="register-form">
+                <div class="input-group">
+                    <label for="register_username">用户名:</label>
+                    <input type="text" id="register_username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="register_password">密码:</label>
+                    <input type="password" id="register_password" name="password" required>
+                </div>
+                <!-- 保留角色选择框 -->
+                <div class="input-group role-select">
+                    <label for="register_role">角色:</label>
+                    <select id="register_role" name="role" required>
+                        <option value="teacher">教师</option>
+                        <option value="student">学生</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="register_nickname">昵称:</label>
+                    <input type="text" id="register_nickname" name="nickname" required>
+                </div>
+                <div class="input-group">
+                    <label for="register_gender">性别:</label>
+                    <select id="register_gender" name="gender" required>
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="register_bio">自我介绍:</label>
+                    <textarea id="register_bio" name="bio" rows="4" required></textarea>
+                </div>
+                <button type="submit">注册</button>
+            </form>
+            <button class="switch-form" onclick="toggleForms()">回到登录页</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginContainer = document.querySelector('.login-container');
+            const registerContainer = document.querySelector('.register-container');
+
+            if (loginContainer.style.display === 'none') {
+                loginContainer.style.display = 'block';
+                registerContainer.style.display = 'none';
+            } else {
+                loginContainer.style.display = 'none';
+                registerContainer.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

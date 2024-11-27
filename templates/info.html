@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="/static/info.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/teachers">教师</a></li>
+                <li><a href="/courses">课程</a></li>
+                <li><a href="/profile">个人信息</a></li>
+                <li id="auth-status">
+                    <a href="#" id="auth-button">退出登录</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="profile-info">
+            <div id="avatar-container">
+                <img id="avatar" src="{% if user.avatar_path %}{{ user.avatar_path }}{% else %}/static/images/default-avatar.png{% endif %}" alt="Avatar">
+                <form id="upload-avatar-form" action="/upload-avatar" method="post" enctype="multipart/form-data">
+                    <input type="file" name="avatar" accept="image/*">
+                    <button type="submit">上传头像</button>
+                </form>
+            </div>
+            <form id="edit-profile-form" action="/update-profile" method="POST">
+                <label for="nickname">昵称:</label>
+                <input type="text" id="nickname" name="nickname" value="{{ user.nickname if user else '' }}">
+                <label for="gender">性别:</label>
+                <select id="gender" name="gender">
+                    <option value="male" {% if user and user.gender=='male' %}selected{% endif %}>男</option>
+                    <option value="female" {% if user and user.gender=='female' %}selected{% endif %}>女</option>
+                </select>
+                <label for="bio">简介:</label>
+                <textarea id="bio" name="bio">{{ user.bio if user else '' }}</textarea>
+                <button type="submit">保存更改</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // 处理个人信息页面跳转
+        document.getElementById('auth-button').addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = '/logout';
+        });
+    </script>
+</body>
+</html>

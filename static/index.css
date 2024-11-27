@@ -1,0 +1,42 @@
+/* 导航栏样式 */
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+header nav li {
+    float: left;
+}
+
+header nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header nav li a:hover {
+    background-color: #111;
+}
+
+/* 主体部分样式 */
+main section {
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+main section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+main section p {
+    font-size: 16px;
+    line-height: 1.5;
+}
