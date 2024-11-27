@@ -15,6 +15,7 @@ templates = Jinja2Templates(directory='templates')
 USER_DB_PATH = 'db/users.csv'
 INFO_DB_PATH = 'db/info.csv'
 AVATAR_DIR = 'avatars'
+DEFAULT_AVATAR_PATH = 'avatars/default.png'
 app.mount('/avatars', StaticFiles(directory='avatars'), name='avatars')
 
 os.makedirs(os.path.dirname(USER_DB_PATH), exist_ok=True)
@@ -128,7 +129,7 @@ async def upload_avatar(request: Request, avatar: UploadFile = File(...)):
         os.remove(avatar_path)
 
     with Image.open(avatar.file) as img:
-        img = img.resize((200, 200), Image.Resampling.LANCZOS)
+        img = img.resize((150, 150), Image.Resampling.LANCZOS)
         img.save(avatar_path, format='PNG')
 
     df_info = pd.read_csv(INFO_DB_PATH)
@@ -137,3 +138,33 @@ async def upload_avatar(request: Request, avatar: UploadFile = File(...)):
     df_info.to_csv(INFO_DB_PATH, index=False)
 
     return RedirectResponse(url='/profile', status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.post('/register', response_class=HTMLResponse)
+async def register_post(request: Request, username: str = Form(...), password: str = Form(...), role: str = Form(...),
+                        nickname: str = Form(...), gender: str = Form(...), bio: str = Form(...)):
+    try:
+        df_user = pd.read_csv(USER_DB_PATH)
+        if df_user[df_user['username'] == username].empty:
+            new_user = pd.DataFrame([{'username': username, 'password': password, 'role': role}])
+            df_users = pd.concat([df_user, new_user], ignore_index=True)
+            df_users.to_csv(USER_DB_PATH, index=False)
+
+            df_info = pd.read_csv(INFO_DB_PATH)
+            new_info = pd.DataFrame([{
+                'username': username,
+                'nickname': nickname,
+                'gender': gender,
+                'bio': bio,
+                'avatar_path': DEFAULT_AVATAR_PATH,
+            }])
+            df_info = pd.concat([df_info, new_info], ignore_index=True)
+            df_info.to_csv(INFO_DB_PATH, index=False)
+            message = '注册成功'
+            return templates.TemplateResponse('login.html', {'request': request, 'message': message})
+        else:
+            message = '用户名已存在'
+    except Exception as e:
+        message = f'注册失败: {str(e)}'
+
+    return templates.TemplateResponse('login.html', {'request': request, 'message': message})

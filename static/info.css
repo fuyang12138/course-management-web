@@ -29,11 +29,13 @@ main section {
     margin-top: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #fff; /* 添加背景颜色以便区分主体内容 */
 }
 
 main section h2 {
     font-size: 24px;
     margin-bottom: 10px;
+    color: #DC3545; /* 统一标题颜色 */
 }
 
 main section dl {
@@ -42,15 +44,113 @@ main section dl {
     color: #555;
 }
 
-/* 特殊样式 */
-main section h2 {
-    color: #DC3545;
-}
-
 main section dt {
     font-weight: bold;
 }
 
 main section dd {
     margin-left: 20px;
+}
+
+/* 头像容器样式 */
+#avatar-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#avatar {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    width: 200px; /* 固定头像大小 */
+    height: 200px;
+}
+
+/* 表单样式 */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* 增加表单元素之间的间距 */
+}
+
+form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input, form select, form textarea {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* 输入框宽度占满父容器 */
+}
+
+form button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 添加过渡效果 */
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* 模态框样式 */
+#modal-crop {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; /* 最大宽度限制 */
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 页面容器样式 */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #f4f4f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* 页面标题样式 */
+.header {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
 }

@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人信息</title>
     <link rel="stylesheet" href="/static/info.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet"/>
 </head>
 <body>
+<div class="container">
     <header>
         <nav>
             <ul>
@@ -15,7 +17,7 @@
                 <li><a href="/courses">课程</a></li>
                 <li><a href="/profile">个人信息</a></li>
                 <li id="auth-status">
-                    <a href="#" id="auth-button">退出登录</a>
+                    <a href="logout" id="auth-button">退出登录</a>
                 </li>
             </ul>
         </nav>
@@ -24,10 +26,10 @@
     <main>
         <section id="profile-info">
             <div id="avatar-container">
-                <img id="avatar" src="{% if user.avatar_path %}{{ user.avatar_path }}{% else %}/static/images/default-avatar.png{% endif %}" alt="Avatar">
-                <form id="upload-avatar-form" action="/upload-avatar" method="post" enctype="multipart/form-data">
-                    <input type="file" name="avatar" accept="image/*">
-                    <button type="submit">上传头像</button>
+                <img id="avatar" src="{% if user.avatar_path %}{{ user.avatar_path|string }}{% else %}/avatars/default-avatar.png{% endif %}" alt="Avatar">
+                <form id="upload-avatar-form" enctype="multipart/form-data" action="/upload-avatar" method="POST">
+                    <input type="file" id="avatar-upload" name="avatar" accept="image/*" required style="display: none;">
+                    <button type="button" onclick="openCropper()">裁剪并上传头像</button>
                 </form>
             </div>
             <form id="edit-profile-form" action="/update-profile" method="POST">
@@ -37,6 +39,7 @@
                 <select id="gender" name="gender">
                     <option value="male" {% if user and user.gender=='male' %}selected{% endif %}>男</option>
                     <option value="female" {% if user and user.gender=='female' %}selected{% endif %}>女</option>
+                    <option value="other" {% if user and user.gender=='other' %}selected{% endif %}>其他</option>
                 </select>
                 <label for="bio">简介:</label>
                 <textarea id="bio" name="bio">{{ user.bio if user else '' }}</textarea>
@@ -45,12 +48,101 @@
         </section>
     </main>
 
+    <!-- The Modal -->
+    <div id="modal-crop">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="crop-image" src="" alt="图像裁剪">
+            <button type="button" id="cropButton" onclick="uploadCroppedImage()" style="display: none;">上传裁剪后的图像</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script>
+        let image;
+        let cropper;
+
+        function openCropper() {
+            const input = document.getElementById('avatar-upload');
+            input.click();
+        }
+
+        document.getElementById('avatar-upload').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('crop-image').src = e.target.result;
+                    const modal = document.getElementById('modal-crop');
+                    modal.style.display = "block";
+                    cropper = new Cropper(document.getElementById('crop-image'), {
+                        aspectRatio: 1 / 1,  // 固定裁剪框为正方形
+                        viewMode: 1,        // 固定裁剪框大小
+                        guides: false,
+                        highlight: false,
+                        cropBoxMovable: false,  // 禁止移动裁剪框
+                        cropBoxResizable: false,  // 禁止调整裁剪框大小
+                        toggleDragModeOnDblclick: false,
+                    });
+                    document.getElementById('cropButton').style.display = 'block'; // 显示裁剪按钮
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        async function uploadCroppedImage() {
+            const canvas = cropper.getCroppedCanvas({
+                width: 200,
+                height: 200,
+            });
+
+            const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+            const formData = new FormData();
+            formData.append('avatar', blob);
+
+            const response = await fetch('/upload-avatar', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to upload avatar.');
+            }
+        }
+
+        // Get the modal
+        var modal = document.getElementById('modal-crop');
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+            document.getElementById('cropButton').style.display = 'none'; // 隐藏裁剪按钮
+        }
+
+        // When the user clicks anywhere outside the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                document.getElementById('cropButton').style.display = 'none'; // 隐藏裁剪按钮
+            }
+        }
+
+        // Handle form submission for uploading avatar
+        document.getElementById('upload-avatar-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            openCropper();
+        });
+
         // 处理个人信息页面跳转
         document.getElementById('auth-button').addEventListener('click', function(event) {
             event.preventDefault();
             window.location.href = '/logout';
         });
     </script>
+</div> <!-- 关闭 container div -->
 </body>
 </html>
