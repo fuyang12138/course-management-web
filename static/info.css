@@ -38,6 +38,11 @@ main section h2 {
     color: #DC3545; /* 统一标题颜色 */
 }
 
+main section p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
 main section dl {
     font-size: 16px;
     line-height: 1.5;
@@ -153,4 +158,70 @@ form button:hover {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
+}
+
+/* 响应式样式 */
+@media (max-width: 768px) {
+    /* 导航栏样式 */
+    header nav li {
+        float: none;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    header nav li a {
+        padding: 14px 0;
+    }
+
+    /* 头像容器样式 */
+    #avatar {
+        width: 150px; /* 减小头像大小 */
+        height: 150px;
+    }
+
+    /* 表单样式 */
+    form input, form select, form textarea {
+        font-size: 14px; /* 减小输入框字体大小 */
+    }
+
+    form button {
+        font-size: 14px; /* 减小按钮字体大小 */
+    }
+
+    /* 模态框样式 */
+    .modal-content {
+        width: 90%; /* 增加模态框宽度 */
+    }
+}
+
+/* 注销按钮样式 */
+#delete-account {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #DC3545; /* 红色背景 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 添加过渡效果 */
+    z-index: 1000; /* 确保按钮在其他内容之上 */
+}
+
+#delete-account:hover {
+    background-color: #A71D31; /* 鼠标悬停时的深红色背景 */
+}
+
+/* 确保注销按钮不会覆盖其他内容 */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #f4f4f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: relative; /* 添加相对定位 */
+    z-index: 1; /* 确保内容在注销按钮之下 */
 }
