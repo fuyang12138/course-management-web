@@ -14,7 +14,7 @@ INFO_DB_PATH = os.path.join(BASE_DIR, 'db', 'info.csv')
 AVATAR_DIR = os.path.join(BASE_DIR, 'avatars')
 
 # 默认头像路径
-DEFAULT_AVATAR_PATH = os.path.join(AVATAR_DIR, 'default.png')
+DEFAULT_AVATAR_PATH = os.path.join('avatars', 'default.png')
 
 # 确保目录存在
 os.makedirs(os.path.dirname(USER_DB_PATH), exist_ok=True)

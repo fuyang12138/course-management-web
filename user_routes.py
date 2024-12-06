@@ -7,7 +7,7 @@ from PIL import Image
 from pathlib import Path
 
 from config import USER_DB_PATH, INFO_DB_PATH, AVATAR_DIR, DEFAULT_AVATAR_PATH
-from helpers import get_username, templates
+from helpers import get_username, templates, remove_user
 
 router = APIRouter()
 
@@ -160,18 +160,20 @@ async def register_post(request: Request, username: str = Form(...), password: s
 
 
 @router.post('/delete-account')
-async def delete_account(request: Request, username: str = Form(...)):
+async def delete_account(request: Request):
     """
     注销账户
     :param request: 请求对象
-    :param username: 用户名
     :return: 成功或失败的响应
     """
+    print("Delete account function called")
+    username = get_username(request)
+    if not username:
+        return RedirectResponse('/login', status_code=status.HTTP_303_SEE_OTHER)
     try:
         # 删除用户在df_info中的数据
-        df_info = pd.read_csv(INFO_DB_PATH)
-        df_info = df_info[df_info['username'] != username]
-        df_info.to_csv(INFO_DB_PATH, index=False)
+        remove_user(username, INFO_DB_PATH)
+        remove_user(username, USER_DB_PATH)
 
         # 删除用户的头像文件
         avatar_path = os.path.join(AVATAR_DIR, f'{username}.png')
@@ -179,8 +181,9 @@ async def delete_account(request: Request, username: str = Form(...)):
             os.remove(avatar_path)
 
         # 退出用户登录状态
-        response = JSONResponse({'success': True})
-        response.delete_cookie('username')
-        return request
+        response = JSONResponse({"success": True, "message": "账户已成功注销"})
+        response.delete_cookie('username')  # 清除登录状态
+
+        return response
     except Exception as e:
         return JSONResponse({"success": False, "message": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

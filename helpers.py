@@ -43,3 +43,14 @@ def initialize_csv(path, columns):
     if not os.path.exists(path):
         df = pd.DataFrame(columns=columns)
         df.to_csv(path, index=False)
+
+
+def remove_user(username: str, db_path: str):
+    """
+    从指定的数据表中删除用户记录
+    :param username: 用户名
+    :param db_path: 数据表路径
+    """
+    df = pd.read_csv(db_path)
+    df = df[df['username'] != username]
+    df.to_csv(db_path, index=False, encoding='utf-8-sig')

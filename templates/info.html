@@ -146,18 +146,21 @@
 
         document.getElementById('delete-account').addEventListener('click', function() {
             if (confirm('确定要注销账户吗？这将永久删除您的所有信息。')) {
+                const formData = new URLSearchParams();
+                formData.append('username', getCookie('username'));
+
                 fetch('/delete-account', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: JSON.stringify({ username: getCookie('username') })
+                    body: formData.toString()
                 })
                 .then(response => response.json())  // 确保解析响应为JSON
                 .then(data => {
                     if (data.success) {
                         alert('账户已成功注销。');
-                        window.location.href = '/';
+                        window.location.href = '/login';  // 直接指定目标页面
                     } else {
                         alert('注销失败。请稍后再试。');
                         console.error('Server response:', data.message);  // 打印服务器响应消息

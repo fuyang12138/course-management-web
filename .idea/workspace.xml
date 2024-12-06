@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="整理了一下代码，功能没有变更，前端真难Q_Q">
-      <change afterPath="$PROJECT_DIR$/old_version.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/course_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/course_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/info.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/info.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/users.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/home_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/info.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/info.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teacher_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/teacher_routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/info.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_routes.py" afterDir="false" />
     </list>
@@ -41,14 +37,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "G:/D/project/course-management-web",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/D/project/course-management-web&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -89,7 +85,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732786137690</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="整理了一下代码，功能没有变更，前端真难Q_Q">
+      <option name="closed" value="true" />
+      <created>1732848365775</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732848365775</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -106,6 +110,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="增加了上传头像的功能，但前端方面依旧存在问题Q_Q" />
     <MESSAGE value="修复了注册功能，设置了默认头像，下一个功能注销。" />
+    <MESSAGE value="注销功能好像存在一点问题，目前还在修改" />
     <MESSAGE value="整理了一下代码，功能没有变更，前端真难Q_Q" />
     <option name="LAST_COMMIT_MESSAGE" value="整理了一下代码，功能没有变更，前端真难Q_Q" />
   </component>

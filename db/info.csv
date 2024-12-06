@@ -1,3 +1,4 @@
-username,nickname,gender,bio,avatar_path
+﻿username,nickname,gender,bio,avatar_path
 admin,管理员,male,有事请留言,avatars/admin.png
-zlp,曾李平,male,电子科技大学牛逼研究生。,avatars/zlp.png
+zlp,曾李平,male,****大学牛逼研究生。,avatars/zlp.png
+lf,刘帆,male,著名企业家,avatars/default.png
