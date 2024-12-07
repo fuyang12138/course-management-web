@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="整理了一下代码，功能没有变更，前端真难Q_Q">
+    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="修复了默认头像的问题，完善注销功能，前端依旧问题不断Q_Q！！">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/info.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/info.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/users.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/info.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/info.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +88,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732848365775</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="修复了默认头像的问题，完善注销功能，前端依旧问题不断Q_Q！！">
+      <option name="closed" value="true" />
+      <created>1733466139791</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733466139791</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -112,6 +115,7 @@
     <MESSAGE value="修复了注册功能，设置了默认头像，下一个功能注销。" />
     <MESSAGE value="注销功能好像存在一点问题，目前还在修改" />
     <MESSAGE value="整理了一下代码，功能没有变更，前端真难Q_Q" />
-    <option name="LAST_COMMIT_MESSAGE" value="整理了一下代码，功能没有变更，前端真难Q_Q" />
+    <MESSAGE value="修复了默认头像的问题，完善注销功能，前端依旧问题不断Q_Q！！" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复了默认头像的问题，完善注销功能，前端依旧问题不断Q_Q！！" />
   </component>
 </project>
