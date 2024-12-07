@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.course_name }} - 课程详情</title>
+    <link rel="stylesheet" href="/static/curriculum.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/teachers">教师</a></li>
+                <li><a href="/courses">课程</a></li>
+                <li><a href="/profile">个人信息</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="course-detail">
+            <h2>{{ course.course_name }}</h2>
+            <p><strong>描述:</strong> {{ course.course_introduction }}</p>
+            <p><strong>讲师:</strong> {{ course.nickname }}</p>
+            <p><strong>学分:</strong> {{ course.credits }}</p>
+            <p><strong>总时长:</strong> {{ course.course_duration }} 分钟</p>
+            <p><strong>价格:</strong> ¥{{ course.price }}</p>
+
+            <h3>课程章节</h3>
+            <ul>
+                {% for section in course_details %}
+                    <li>
+                        <span class="chapter-symbol">&#9679;</span>
+                        <h4>{{ section.section_name }}</h4>
+                        <p><strong>简介:</strong> {{ section.section_introduction }}</p>
+                        <button class="download-material" onclick="window.open('{{ section.teaching_material }}', '_blank')">下载教学材料</button>
+                        <button class="play-video" onclick="playVideo('{{ section.video }}')">播放视频</button>
+                        <p><strong>时长:</strong> {{ section.time }} 分钟</p>
+                    </li>
+                {% else %}
+                    <li>没有可用的章节</li>
+                {% endfor %}
+            </ul>
+            <button class="back-to-courses" onclick="window.location.href='/courses'">返回课程列表</button>
+        </section>
+    </main>
+
+    <script>
+        function playVideo(videoUrl) {
+            var videoPlayer = document.createElement('video');
+            videoPlayer.src = videoUrl;
+            videoPlayer.controls = true;
+            videoPlayer.width = 640;
+            videoPlayer.height = 360;
+            document.body.appendChild(videoPlayer);
+            videoPlayer.play();
+        }
+    </script>
+</body>
+</html>
+
+
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,9 +20,32 @@
 
     <main>
         <section id="courses">
-            <h2>课程信息</h2>
-            <p>这是课程子页面的内容。</p>
+            <h2>课程</h2>
+            {% if courses %}
+                <div class="course-list">
+                    {% for course in courses %}
+                        <div class="course-card">
+                            <img src="{{ course.avatar_path }}" alt="{{ course.nickname }} 头像" class="course-avatar">
+                            <div class="course-info">
+                                <h3>{{ course.course_name }}</h3>
+                                <p><strong>ID:</strong> {{ course.course_id }}</p>
+                                <p>{{ course.course_introduction }}</p>
+                                <p><strong>讲师:</strong> {{ course.nickname }}</p>
+                                <p><strong>学分:</strong> {{ course.credits }}</p>
+                                <p><strong>总时长:</strong> {{ course.course_duration }} 分钟</p>
+                                <p><strong>价格:</strong> ¥{{ course.price }}</p>
+                                <button class="view-details" onclick="window.location.href='/course/{{ course.course_id }}'">查看详情</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>没有可用的课程</p>
+            {% endif %}
         </section>
     </main>
 </body>
 </html>
+
+
+
