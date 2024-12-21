@@ -4,19 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="修正了个人信息页面渲染不正确的问题，删除了不需要的文件">
-      <change afterPath="$PROJECT_DIR$/db/course.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/course_detail.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/course_detail.html" afterDir="false" />
+    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="增加了课程页面的功能，不够完善，功能还在添加中。">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/avatars/default.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatars/default.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/course_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/course_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/course_detail.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/course_detail.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/info.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/info.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/users.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/curriculum.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/curriculum.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/teachers.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/teachers.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teacher_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/teacher_routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/curriculum.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/curriculum.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teachers.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teachers.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,15 +38,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "G:/D/project/course-management-web",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/D/project/course-management-web&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -116,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733537647340</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="增加了课程页面的功能，不够完善，功能还在添加中。">
+      <option name="closed" value="true" />
+      <created>1733559774016</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733559774016</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -140,6 +143,7 @@
     <MESSAGE value="整理了一下代码，功能没有变更，前端真难Q_Q" />
     <MESSAGE value="修复了默认头像的问题，完善注销功能，前端依旧问题不断Q_Q！！" />
     <MESSAGE value="修正了个人信息页面渲染不正确的问题，删除了不需要的文件" />
-    <option name="LAST_COMMIT_MESSAGE" value="修正了个人信息页面渲染不正确的问题，删除了不需要的文件" />
+    <MESSAGE value="增加了课程页面的功能，不够完善，功能还在添加中。" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加了课程页面的功能，不够完善，功能还在添加中。" />
   </component>
 </project>

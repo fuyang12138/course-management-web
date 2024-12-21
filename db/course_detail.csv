@@ -1,2 +1,5 @@
 course_id,section_name,section_introduction,teaching_material,video,time
-1,初聊考研数学,本小节主要讲述考研数学的几个大方向。,教材文档下载地址,视频存储地址,20
+1,初聊考研数学,介绍考研数学的重要性及学习方法,教材文档下载地址,video/math_intro.mp4,20
+1,线性代数基础,讲解线性代数的基本概念和解题技巧,教材文档下载地址,video/linear_algebra.mp4,30
+2,创业准备,分享创业前需要做的准备工作,教材文档下载地址,video/startup_prep.mp4,25
+2,市场分析,深入分析目标市场的现状和发展趋势,教材文档下载地址,video/market_analysis.mp4,35

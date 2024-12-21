@@ -24,25 +24,71 @@ header nav li a:hover {
 }
 
 /* 主体部分样式 */
-main section {
+main {
     padding: 20px;
-    margin-top: 20px;
+}
+
+#teachers {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#teachers h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.teacher-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+}
+
+.teacher-card {
     border: 1px solid #ccc;
     border-radius: 5px;
+    width: calc(33% - 20px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
 }
 
-main section h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+.teacher-card:hover {
+    transform: translateY(-5px);
 }
 
-main section p {
-    font-size: 16px;
+.teacher-avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+
+.teacher-info {
+    flex-grow: 1;
+}
+
+.teacher-info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.teacher-info p {
+    font-size: 14px;
     line-height: 1.5;
     color: #555;
 }
 
-/* 特殊样式 */
-main section h2 {
-    color: #007BFF;
+/* 简介滚动条样式 */
+.bio-scroll {
+    max-height: 100px; /* 设置最大高度 */
+    overflow-y: auto; /* 添加垂直滚动条 */
 }
+
+
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,8 +21,28 @@
     <main>
         <section id="teachers">
             <h2>教师信息</h2>
-            <p>这是教师子页面的内容。</p>
+            {% if teachers %}
+                <div class="teacher-list">
+                    {% for teacher in teachers %}
+                        <div class="teacher-card">
+                            <img src="{{ teacher.avatar_path }}" alt="{{ teacher.nickname }} 头像" class="teacher-avatar">
+                            <div class="teacher-info">
+                                <h3>{{ teacher.nickname }}</h3>
+                                <p><strong>性别:</strong> {{ '男' if teacher.gender == 'male' else '女' }}</p>
+                                <div class="bio-scroll">
+                                    <p>{{ teacher.bio }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>没有可用的教师</p>
+            {% endif %}
         </section>
     </main>
 </body>
 </html>
+
+
+
