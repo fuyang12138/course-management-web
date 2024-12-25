@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="增加了课程页面的功能，不够完善，功能还在添加中。">
+    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="增加了教师页面得展示">
+      <change afterPath="$PROJECT_DIR$/db/friends_follow.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/course_detail.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/course_detail.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/info.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/info.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/teachers.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/teachers.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teacher_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/teacher_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/curriculum.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/curriculum.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teachers.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teachers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -119,7 +115,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733559774016</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="增加了教师页面得展示">
+      <option name="closed" value="true" />
+      <created>1734764891263</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1734764891263</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -144,6 +148,7 @@
     <MESSAGE value="修复了默认头像的问题，完善注销功能，前端依旧问题不断Q_Q！！" />
     <MESSAGE value="修正了个人信息页面渲染不正确的问题，删除了不需要的文件" />
     <MESSAGE value="增加了课程页面的功能，不够完善，功能还在添加中。" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加了课程页面的功能，不够完善，功能还在添加中。" />
+    <MESSAGE value="增加了教师页面得展示" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加了教师页面得展示" />
   </component>
 </project>
