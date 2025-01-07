@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 import os
 import pandas as pd
 
-from config import INFO_DB_PATH, BASE_DIR, AVATAR_DIR
+from config import USER_DB_PATH, INFO_DB_PATH, BASE_DIR, AVATAR_DIR
 
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, 'templates'))
 
@@ -29,9 +29,20 @@ def get_user_info(username: str):
     :param username: 用户名
     :return: 用户信息字典
     """
+    df_user = pd.read_csv(USER_DB_PATH)
     df_info = pd.read_csv(INFO_DB_PATH)
-    user_info = df_info[df_info['username'] == username]
-    return user_info.to_dict('records')[0] if not user_info.empty else None
+
+    user_row = df_user[df_user['username'] == username]
+    info_row = df_info[df_info['username'] == username]
+
+    if user_row.empty or info_row.empty:
+        return {}
+
+    user_data = user_row.iloc[0].to_dict()
+    info_data = info_row.iloc[0].to_dict()
+
+    combined_data = {**user_data, **info_data}
+    return combined_data
 
 
 def initialize_csv(path, columns):
@@ -54,3 +65,19 @@ def remove_user(username: str, db_path: str):
     df = pd.read_csv(db_path)
     df = df[df['username'] != username]
     df.to_csv(db_path, index=False, encoding='utf-8-sig')
+
+
+def merge_notes(contacts, df_contacts):
+    """
+    合并备注信息
+    :param contacts: 关注或好友列表
+    :param df_contacts: 关注或好友dataframe
+    """
+    for contact in contacts:
+        note = str(df_contacts[df_contacts['people'] == contact['username']]['notes'].values[0])
+        if len(note) > 5:
+            contact['note'] = f'{note[:5]}...'
+            contact['full_note'] = note
+        else:
+            contact['note'] = note
+    return contacts

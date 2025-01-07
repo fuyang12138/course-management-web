@@ -1,0 +1,232 @@
+/* 导航栏样式 */
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+header nav li {
+    float: left;
+}
+
+header nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header nav li a:hover {
+    background-color: #111;
+}
+
+/* 主体部分样式 */
+main {
+    padding: 20px;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#messages h2,
+#messages h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    width: calc(100% - 60px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    display: flex;
+    height: 60vh;
+}
+
+.sidebar {
+    /* width: 30%; */
+    max-width: 300px; /* 固定最大宽度 */
+    min-width: 250px; /* 固定最小宽度 */
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box; /* 确保内边距和边框包含在宽度内 */
+    overflow-y: auto;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background-color: #0056b3;
+}
+
+.list {
+    margin-top: 20px;
+    height: calc(100% - 60px); /* 固定高度减去按钮的高度 */
+    overflow-y: auto; /* 添加垂直滚动条 */
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    box-sizing: border-box; /* 确保内边距和边框包含在宽度内 */
+    width: 100%; /* 确保每个联系人项占满整个宽度 */
+}
+
+.contact:hover {
+    background-color: #f0f0f0;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+
+.info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0; /* 确保子元素不会超出父元素的宽度 */
+}
+
+.info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    white-space: nowrap; /* 防止文字换行 */
+    overflow: hidden; /* 超出隐藏 */
+    text-overflow: ellipsis; /* 显示省略号 */
+}
+
+.info p.note {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+    white-space: nowrap; /* 防止文字换行 */
+    overflow: hidden; /* 超出隐藏 */
+    text-overflow: ellipsis; /* 显示省略号 */
+}
+
+.chat-mesh {
+    /* width: 70%; */ /* 固定宽度为容器的70% */
+    max-width: 1000px; /* 固定最大宽度为600px */
+    min-width: 1000px; /* 固定最小宽度为400px */
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-left: 1px solid #ccc;
+    box-sizing: border-box; /* 确保内边距和边框包含在宽度内 */
+}
+
+.chat-mesh h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.chat-mesh .bio-scroll {
+    max-height: 100px; /* 设置最大高度 */
+    overflow-y: auto; /* 添加垂直滚动条 */
+    margin-bottom: 20px;
+}
+
+.chat-mesh .chat-area {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 150px); /* 计算剩余高度 */
+}
+
+.chat-mesh .chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.chat-mesh .chat-messages .message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+}
+
+.chat-mesh .chat-messages .message.sent {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+}
+
+.chat-mesh .chat-messages .message.received {
+    background-color: #e9ecef;
+    align-self: flex-start;
+}
+
+.chat-mesh form {
+    display: flex;
+}
+
+.chat-mesh form input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chat-mesh form button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.chat-mesh form button:hover {
+    background-color: #0056b3;
+}
+
+
+

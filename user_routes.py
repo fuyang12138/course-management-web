@@ -7,7 +7,7 @@ from PIL import Image
 from pathlib import Path
 
 from config import USER_DB_PATH, INFO_DB_PATH, AVATAR_DIR, DEFAULT_AVATAR_PATH
-from helpers import get_username, templates, remove_user
+from helpers import get_username, get_user_info, templates, remove_user
 
 router = APIRouter()
 
@@ -47,6 +47,21 @@ async def login_post(request: Request, username: str = Form(...), password: str 
     return templates.TemplateResponse("login.html", {"request": request, "message": message})
 
 
+@router.get('/profile', response_class=HTMLResponse)
+async def profile(request: Request):
+    """
+    个人资料页面
+    :param request: 请求对象
+    :return: 渲染的个人资料页面
+    """
+    username = get_username(request)
+    if not username:
+        return RedirectResponse(url='/login', status_code=status.HTTP_303_SEE_OTHER)
+
+    user_info = get_user_info(username)
+    return templates.TemplateResponse('info.html', {'request': request, 'user': user_info})
+
+
 @router.get('/auth-status', response_class=JSONResponse)
 async def auth_status(request: Request):
     """
@@ -70,22 +85,55 @@ async def logout():
 
 
 @router.post('/update-profile')
-async def update_profile(request: Request, nickname: str = Form(...), gender: str = Form(...), bio: str = Form(...)):
+async def update_profile(
+    request: Request,
+    nickname: str = Form(...),
+    gender: str = Form(...),
+    bio: str = Form(...),
+    email: str = Form(...),
+    honors: str = Form(None),
+    certificates: str = Form(None),
+    specialties: str = Form(None),
+    education: str = Form(None)
+):
     """
     更新用户资料
     :param request: 请求对象
     :param nickname: 昵称
     :param gender: 性别
     :param bio: 简介
+    :param email: 邮箱地址
+    :param honors: 获得过的荣誉
+    :param certificates: 获得过的证书
+    :param specialties: 擅长的领域
+    :param education: 毕业院校
     :return: 重定向到个人资料页面
     """
     username = get_username(request)
     if not username:
         return RedirectResponse('/login', status_code=status.HTTP_303_SEE_OTHER)
 
+    # 获取用户信息和角色
+    df_user = pd.read_csv(USER_DB_PATH)
+    user_role = df_user[df_user['username'] == username]['role'].values[0]
+
     df_info = pd.read_csv(INFO_DB_PATH)
-    df_info.loc[df_info['username'] == username, ['nickname', 'gender', 'bio']] = [nickname, gender, bio]
-    df_info.to_csv(INFO_DB_PATH, index=False)
+    mask = df_info['username'] == username
+    if mask.any():
+        df_info.loc[mask, ['nickname', 'gender', 'bio', 'email']] = [nickname, gender, bio, email]
+
+        # 根据角色更新特定字段
+        if user_role == 'teacher':
+            if honors is not None:
+                df_info.loc[mask, 'honors'] = honors
+            if certificates is not None:
+                df_info.loc[mask, 'certificates'] = certificates
+            if specialties is not None:
+                df_info.loc[mask, 'specialties'] = specialties
+            if education is not None:
+                df_info.loc[mask, 'education'] = education
+
+        df_info.to_csv(INFO_DB_PATH, index=False)
 
     return RedirectResponse(url='/profile', status_code=status.HTTP_303_SEE_OTHER)
 
@@ -119,8 +167,20 @@ async def upload_avatar(request: Request, avatar: UploadFile = File(...)):
 
 
 @router.post('/register', response_class=HTMLResponse)
-async def register_post(request: Request, username: str = Form(...), password: str = Form(...), role: str = Form(...),
-                        nickname: str = Form(...), gender: str = Form(...), bio: str = Form(...)):
+async def register_post(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...),
+    role: str = Form(...),
+    nickname: str = Form(...),
+    gender: str = Form(...),
+    bio: str = Form(...),
+    email: str = Form(...),
+    honors: str = Form(None),
+    certificates: str = Form(None),
+    specialties: str = Form(None),
+    education: str = Form(None)
+):
     """
     注册新用户
     :param request: 请求对象
@@ -130,6 +190,11 @@ async def register_post(request: Request, username: str = Form(...), password: s
     :param nickname: 昵称
     :param gender: 性别
     :param bio: 简介
+    :param email: 邮箱地址
+    :param honors: 获得过的荣誉
+    :param certificates: 获得过的证书
+    :param specialties: 擅长的领域
+    :param education: 毕业院校
     :return: 注册成功或失败的响应
     """
     try:
@@ -146,6 +211,11 @@ async def register_post(request: Request, username: str = Form(...), password: s
                 'gender': gender,
                 'bio': bio,
                 'avatar_path': DEFAULT_AVATAR_PATH,
+                'email': email,
+                'honors': honors if role == 'teacher' else '',
+                'certificates': certificates if role == 'teacher' else '',
+                'specialties': specialties if role == 'teacher' else '',
+                'education': education if role == 'teacher' else '',
             }])
             df_info = pd.concat([df_info, new_info], ignore_index=True)
             df_info.to_csv(INFO_DB_PATH, index=False)

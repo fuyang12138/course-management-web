@@ -30,6 +30,9 @@ main section {
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff; /* 添加背景颜色以便区分主体内容 */
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* 确保主体部分宽度与页面相同 */
 }
 
 main section h2 {
@@ -89,6 +92,15 @@ form input, form select, form textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%; /* 输入框宽度占满父容器 */
+    resize: none; /* 不允许调整大小 */
+    overflow-y: auto; /* 超出部分使用滚动条显示 */
+    min-height: 50px; /* 设置最小高度 */
+    max-height: 200px; /* 设置最大高度 */
+}
+
+form textarea.edu-specialty {
+    min-height: 20px; /* 毕业院校和擅长领域的高度设为一行字左右 */
+    max-height: 20px;
 }
 
 form button {
@@ -160,6 +172,72 @@ form button:hover {
     margin-bottom: 20px;
 }
 
+/* 教师详情样式 */
+#teacher-details {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 30%; /* 宽度设置为30% */
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 40px); /* 卡片宽度占满父容器减去边距 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    padding: 15px;
+    background-color: #fff;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.card input, .card select, .card textarea {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* 输入框宽度占满父容器 */
+    resize: none; /* 不允许调整大小 */
+    overflow-y: auto; /* 超出部分使用滚动条显示 */
+    min-height: 50px; /* 设置最小高度 */
+    max-height: 200px; /* 设置最大高度 */
+}
+
+.card textarea.edu-specialty {
+    min-height: 20px; /* 毕业院校和擅长领域的高度设为一行字左右 */
+    max-height: 20px;
+}
+
+.card button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 添加过渡效果 */
+}
+
+.card button:hover {
+    background-color: #0056b3;
+}
+
 /* 响应式样式 */
 @media (max-width: 768px) {
     /* 导航栏样式 */
@@ -193,6 +271,16 @@ form button:hover {
     .modal-content {
         width: 90%; /* 增加模态框宽度 */
     }
+
+    /* 教师详情样式 */
+    main section {
+        flex-direction: column; /* 在小屏幕上改为垂直排列 */
+    }
+
+    #teacher-details {
+        width: 100%; /* 在小屏幕上卡片宽度占满父容器 */
+        margin-top: 20px;
+    }
 }
 
 /* 注销按钮样式 */
@@ -225,3 +313,6 @@ form button:hover {
     position: relative; /* 添加相对定位 */
     z-index: 1; /* 确保内容在注销按钮之下 */
 }
+
+
+

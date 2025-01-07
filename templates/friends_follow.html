@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息</title>
+    <link rel="stylesheet" href="/static/friends_follow.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/teachers">教师</a></li>
+                <li><a href="/courses">课程</a></li>
+                <li><a href="/messages">消息</a></li>
+                <li><a href="/profile">个人信息</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="messages">
+            <h3>好友查找</h3>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="搜索...">
+                <button onclick="searchContacts()">搜索</button>
+            </div>
+            <div class="container">
+                <div class="sidebar">
+                    <button onclick="toggleList('friends')">好友</button>
+                    <button onclick="toggleList('follows')">关注</button>
+                    <div id="friends-list" class="list">
+                        {% for friend in friends %}
+                            <div class="contact" onclick="showContactInfo('{{ friend.username }}')" ondblclick="showChatWindow('{{ friend.username }}')">
+                                <img src="{{ friend.avatar_path }}" alt="{{ friend.nickname }} 头像" class="avatar">
+                                <div class="info">
+                                    <h3>{{ friend.nickname }}</h3>
+                                    <p class="note editable-note" data-full-note="{{ friend.full_note if friend.note.endswith('...') else '' }}" onclick="editNote(this)">{{ friend.note }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="follows-list" class="list" style="display: none;">
+                        {% for follow in follows %}
+                            <div class="contact" onclick="showContactInfo('{{ follow.username }}')" ondblclick="showChatWindow('{{ follow.username }}')">
+                                <img src="{{ follow.avatar_path }}" alt="{{ follow.nickname }} 头像" class="avatar">
+                                <div class="info">
+                                    <h3>{{ follow.nickname }}</h3>
+                                    <p class="note editable-note" data-full-note="{{ follow.full_note if follow.note.endswith('...') else '' }}" onclick="editNote(this)">{{ follow.note }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="search-results" class="list" style="display: none;">
+                        <!-- 搜索结果显示在这里 -->
+                    </div>
+                </div>
+                <div class="chat-mesh" id="chat-mesh">
+                    <!-- 对话内容将在这里显示 -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleList(type) {
+            document.getElementById('friends-list').style.display = type === 'friends' ? 'block' : 'none';
+            document.getElementById('follows-list').style.display = type === 'follows' ? 'block' : 'none';
+            document.getElementById('search-results').style.display = 'none'; // 隐藏搜索结果
+        }
+
+        function showContactInfo(username) {
+            fetch(`/get_contact?username=${encodeURIComponent(username)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const chatMesh = document.getElementById('chat-mesh');
+                    chatMesh.innerHTML = `
+                        <h3>${data.nickname}</h3>
+                        <div class="bio-scroll">
+                            <p>${data.bio}</p>
+                        </div>
+                    `;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function showChatWindow(username) {
+            fetch(`/get_contact?username=${encodeURIComponent(username)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const chatMesh = document.getElementById('chat-mesh');
+                    chatMesh.innerHTML = `
+                        <h3>${data.nickname}</h3>
+                        <div class="bio-scroll">
+                            <p>${data.bio}</p>
+                        </div>
+                        <div class="chat-area">
+                            <div class="chat-messages" id="chat-messages">
+                                <!-- 聊天消息将在这里显示 -->
+                            </div>
+                            <form onsubmit="sendMessage(event)">
+                                <input type="text" id="message-input" placeholder="输入消息...">
+                                <button type="submit">发送</button>
+                            </form>
+                        </div>
+                    `;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML += `<div class="message sent">${messageText}</div>`;
+                messageInput.value = '';
+            }
+        }
+
+        function searchContacts() {
+            const query = document.getElementById('search-input').value;
+            if (!query) {
+                alert("请输入搜索关键词");
+                return;
+            }
+            fetch(`/search_contacts?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const searchResults = document.getElementById('search-results');
+                    searchResults.innerHTML = '';
+                    data.contacts.forEach(contact => {
+                        searchResults.innerHTML += `
+                            <div class="contact" onclick="showContactInfo('${contact.username}')" ondblclick="showChatWindow('${contact.username}')">
+                                <img src="${contact.avatar_path}" alt="${contact.nickname} 头像" class="avatar">
+                                <div class="info">
+                                    <h3>${contact.nickname}</h3>
+                                    <p class="note editable-note" data-full-note="${contact.full_note || ''}" onclick="editNote(this)">${contact.note}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('friends-list').style.display = 'none';
+                    document.getElementById('follows-list').style.display = 'none';
+                    searchResults.style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function editNote(element) {
+            const fullNote = element.getAttribute('data-full-note');
+            const newNote = prompt("编辑备注:", fullNote);
+            if (newNote !== null) {
+                fetch(`/update_note`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: element.parentElement.querySelector('h3').innerText, note: newNote })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        element.innerText = newNote.length > 5 ? `${newNote.slice(0, 5)}...` : newNote;
+                        element.setAttribute('data-full-note', newNote);
+                    } else {
+                        alert("更新失败");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

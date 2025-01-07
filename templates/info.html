@@ -8,21 +8,22 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet"/>
 </head>
 <body>
-<div class="container">
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">首页</a></li>
-                <li><a href="/teachers">教师</a></li>
-                <li><a href="/courses">课程</a></li>
-                <li><a href="/profile">个人信息</a></li>
-                <li id="auth-status">
-                    <a href="logout" id="auth-button">退出登录</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">首页</a></li>
+            <li><a href="/teachers">教师</a></li>
+            <li><a href="/courses">课程</a></li>
+            <li><a href="/messages">消息</a></li>
+            <li><a href="/profile">个人信息</a></li>
+            <li id="auth-status">
+                <a href="logout" id="auth-button">退出登录</a>
+            </li>
+        </ul>
+    </nav>
+</header>
 
+<div class="container">
     <main>
         <section id="profile-info">
             <div id="avatar-container">
@@ -32,20 +33,48 @@
                     <button type="button" onclick="openCropper()">裁剪并上传头像</button>
                 </form>
             </div>
-            <form id="edit-profile-form" action="/update-profile" method="POST">
-                <label for="nickname">昵称:</label>
-                <input type="text" id="nickname" name="nickname" value="{{ user.nickname if user else '' }}">
-                <label for="gender">性别:</label>
-                <select id="gender" name="gender">
-                    <option value="male" {% if user and user.gender=='male' %}selected{% endif %}>男</option>
-                    <option value="female" {% if user and user.gender=='female' %}selected{% endif %}>女</option>
-                    <option value="other" {% if user and user.gender=='other' %}selected{% endif %}>其他</option>
-                </select>
-                <label for="bio">简介:</label>
-                <textarea id="bio" name="bio">{{ user.bio if user else '' }}</textarea>
-                <button type="submit">保存更改</button>
-            </form>
-            <button id="delete-account" type="button">注销账户</button>
+            <div id="basic-info">
+                <form id="edit-profile-form" action="/update-profile" method="POST">
+                    <label for="nickname">昵称:</label>
+                    <input type="text" id="nickname" name="nickname" value="{{ user.nickname if user else '' }}">
+
+                    <label for="gender">性别:</label>
+                    <select id="gender" name="gender">
+                        <option value="male" {% if user and user.gender=='male' %}selected{% endif %}>男</option>
+                        <option value="female" {% if user and user.gender=='female' %}selected{% endif %}>女</option>
+                        <option value="other" {% if user and user.gender=='other' %}selected{% endif %}>其他</option>
+                    </select>
+
+                    <label for="bio">简介:</label>
+                    <textarea id="bio" name="bio">{{ user.bio if user else '' }}</textarea>
+
+                    <label for="email">邮箱地址:</label>
+                    <input type="email" id="email" name="email" value="{{ user.email if user else '' }}">
+
+                    <button type="submit">保存更改</button>
+                </form>
+                <button id="delete-account" type="button">注销账户</button>
+            </div>
+            {% if user.role == 'teacher' %}
+            <div id="teacher-details">
+                <div class="card">
+                    <h3>毕业院校</h3>
+                    <textarea id="education" name="education">{{ user.education if user else '' }}</textarea>
+                </div>
+                <div class="card">
+                    <h3>擅长的领域</h3>
+                    <textarea id="specialties" name="specialties">{{ user.specialties if user else '' }}</textarea>
+                </div>
+                <div class="card">
+                    <h3>获得过的荣誉</h3>
+                    <textarea id="honors" name="honors">{{ user.honors if user else '' }}</textarea>
+                </div>
+                <div class="card">
+                    <h3>获得过的证书</h3>
+                    <textarea id="certificates" name="certificates">{{ user.certificates if user else '' }}</textarea>
+                </div>
+            </div>
+            {% endif %}
         </section>
     </main>
 
@@ -183,3 +212,6 @@
 </div> <!-- 关闭 container div -->
 </body>
 </html>
+
+
+
