@@ -1,11 +1,39 @@
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 import pandas as pd
 
 from config import FRIENDS_FOLLOW_PATH, INFO_DB_PATH
-from helpers import templates, get_username, merge_notes
+from helpers import templates, get_username, merge_notes, save_message, active_connections
 
 router = APIRouter()
+
+
+@router.websocket('/ws/{username}/{receiver}')
+async def websocket_endpoint(websocket: WebSocket, username: str, receiver: str):
+    await websocket.accept()
+    if username not in active_connections:
+        active_connections[username] = {}
+    active_connections[username][receiver] = websocket
+    print(f"WebSocket connection established between {username} and {receiver}")
+
+    try:
+        while True:
+            data = await websocket.receive_text()
+            print(f"Received message from {username}: {data}")
+            await save_message(username, receiver, data)
+            if receiver in active_connections and username in active_connections[receiver]:
+                await active_connections[receiver][username].send_text(f"{username}: {data}")
+                print(f"Sent message to {receiver} from {username}: {data}")
+            if username in active_connections and receiver in active_connections[username]:
+                await active_connections[username][receiver].send_text(f"{username}: {data}")
+                print(f"Sent message to {username} from {username}: {data}")
+    except WebSocketDisconnect:
+        if username in active_connections and receiver in active_connections[username]:
+            del active_connections[username][receiver]
+            print(f"Removed WebSocket connection for {username} -> {receiver}")
+        if username in active_connections and not active_connections[username]:
+            del active_connections[username]
+            print(f"All connections for {username} removed")
 
 
 @router.get('/messages', response_class=HTMLResponse)

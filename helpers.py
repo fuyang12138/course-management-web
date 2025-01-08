@@ -2,11 +2,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 import os
+import csv
 import pandas as pd
+from datetime import datetime
 
-from config import USER_DB_PATH, INFO_DB_PATH, BASE_DIR, AVATAR_DIR
+from config import USER_DB_PATH, INFO_DB_PATH, BASE_DIR, AVATAR_DIR, CHAT_CSV_FILE_PATH
 
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, 'templates'))
+active_connections = {}
 
 
 def mount_static(app):
@@ -81,3 +84,10 @@ def merge_notes(contacts, df_contacts):
         else:
             contact['note'] = note
     return contacts
+
+
+async def save_message(sender, receiver, message):
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(CHAT_CSV_FILE_PATH, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow([timestamp, sender, receiver, message])

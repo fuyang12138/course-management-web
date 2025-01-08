@@ -64,6 +64,10 @@
     </main>
 
     <script>
+        let currentUsername = '{{ current_user }}'; // 从前端模板获取当前用户名
+        let receiverUsername = ''; // 接收者的用户名
+        let socket = null;
+
         function toggleList(type) {
             document.getElementById('friends-list').style.display = type === 'friends' ? 'block' : 'none';
             document.getElementById('follows-list').style.display = type === 'follows' ? 'block' : 'none';
@@ -86,6 +90,7 @@
         }
 
         function showChatWindow(username) {
+            receiverUsername = username;
             fetch(`/get_contact?username=${encodeURIComponent(username)}`)
                 .then(response => response.json())
                 .then(data => {
@@ -105,6 +110,9 @@
                             </form>
                         </div>
                     `;
+
+                    // 初始化 WebSocket 连接
+                    initWebSocket();
                 })
                 .catch(error => console.error('Error:', error));
         }
@@ -114,8 +122,8 @@
             const messageInput = document.getElementById('message-input');
             const messageText = messageInput.value.trim();
             if (messageText) {
-                const chatMessages = document.getElementById('chat-messages');
-                chatMessages.innerHTML += `<div class="message sent">${messageText}</div>`;
+                socket.send(messageText);
+                addMessage(messageText, 'sent'); // 发送方添加消息
                 messageInput.value = '';
             }
         }
@@ -171,6 +179,45 @@
                 })
                 .catch(error => console.error('Error:', error));
             }
+        }
+
+        function initWebSocket() {
+            if (socket) {
+                socket.close();
+            }
+            socket = new WebSocket(`ws://localhost:8000/ws/${currentUsername}/${receiverUsername}`);
+
+            socket.onopen = function(event) {
+                console.log('WebSocket 连接已打开');
+            };
+
+            socket.onmessage = function(event) {
+                const messageData = event.data.split(': ');
+                const sender = messageData[0];
+                const message = messageData[1];
+
+                // 只有当消息来自其他用户时才添加到聊天界面
+                if (sender !== currentUsername) {
+                    addMessage(message, 'received');
+                }
+            };
+
+            socket.onerror = function(error) {
+                console.error('WebSocket 错误:', error);
+            };
+
+            socket.onclose = function(event) {
+                console.log('WebSocket 连接已关闭');
+            };
+        }
+
+        function addMessage(text, type) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${type}`;
+            messageElement.textContent = text;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     </script>
 </body>

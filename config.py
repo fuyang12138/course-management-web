@@ -19,6 +19,9 @@ COURSE_DETAIL_DB_PATH = os.path.join(BASE_DIR, 'db', 'course_detail.csv')
 # 用户关注好友数据库路径
 FRIENDS_FOLLOW_PATH = os.path.join(BASE_DIR, 'db', 'friends_follow.csv')
 
+# 聊天消息数据库路径
+CHAT_CSV_FILE_PATH = os.path.join(BASE_DIR, 'db', 'chat.csv')
+
 # 头像存储目录
 AVATAR_DIR = os.path.join(BASE_DIR, 'avatars')
 
