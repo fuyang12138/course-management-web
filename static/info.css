@@ -24,6 +24,18 @@ header nav li a:hover {
 }
 
 /* 主体部分样式 */
+main {
+    max-width: 100%;
+    margin: auto;
+    background-color: #f4f4f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* 添加相对定位 */
+    z-index: 1; /* 确保内容在注销按钮之下 */
+}
+
 main section {
     padding: 20px;
     margin-top: 20px;
@@ -32,7 +44,10 @@ main section {
     background-color: #fff; /* 添加背景颜色以便区分主体内容 */
     display: flex;
     justify-content: space-between;
-    width: 100%; /* 确保主体部分宽度与页面相同 */
+    width: 98%; /* 确保主体部分宽度占页面的98% */
+    margin-left: 1%;
+    margin-right: 1%;
+    box-sizing: border-box;
 }
 
 main section h2 {
@@ -70,8 +85,8 @@ main section dd {
     max-width: 100%;
     height: auto;
     border-radius: 50%;
-    width: 200px; /* 固定头像大小 */
-    height: 200px;
+    width: 150px; /* 固定头像大小 */
+    height: 150px;
 }
 
 /* 表单样式 */
@@ -101,6 +116,7 @@ form input, form select, form textarea {
 form textarea.edu-specialty {
     min-height: 20px; /* 毕业院校和擅长领域的高度设为一行字左右 */
     max-height: 20px;
+    resize: none; /* 禁止调整大小 */
 }
 
 form button {
@@ -155,16 +171,6 @@ form button:hover {
     cursor: pointer;
 }
 
-/* 页面容器样式 */
-.container {
-    max-width: 100%;
-    margin: auto;
-    background-color: #f4f4f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
 /* 页面标题样式 */
 .header {
     text-align: center;
@@ -178,7 +184,7 @@ form button:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    width: 30%; /* 宽度设置为30% */
+    width: 100%; /* 宽度设置为100%，确保与基本信息在同一列 */
 }
 
 .card {
@@ -221,6 +227,7 @@ form button:hover {
 .card textarea.edu-specialty {
     min-height: 20px; /* 毕业院校和擅长领域的高度设为一行字左右 */
     max-height: 20px;
+    resize: none; /* 禁止调整大小 */
 }
 
 .card button {
@@ -301,18 +308,3 @@ form button:hover {
 #delete-account:hover {
     background-color: #A71D31; /* 鼠标悬停时的深红色背景 */
 }
-
-/* 确保注销按钮不会覆盖其他内容 */
-.container {
-    max-width: 800px;
-    margin: auto;
-    background-color: #f4f4f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    position: relative; /* 添加相对定位 */
-    z-index: 1; /* 确保内容在注销按钮之下 */
-}
-
-
-

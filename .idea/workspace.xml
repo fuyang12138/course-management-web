@@ -4,24 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="为修改完">
-      <change afterPath="$PROJECT_DIR$/static/friends_follow.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/friends_follow.html" afterDir="false" />
+    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="一些小更新，为后续实时聊天准备">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/friends_follow.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/friends_follow.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/info.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/info.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/friends_follow_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/friends_follow_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/home_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/info.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/info.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/course_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/course_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/curriculum.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/curriculum.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teachers.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teachers.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_routes.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735109520280</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="一些小更新，为后续实时聊天准备">
+      <option name="closed" value="true" />
+      <created>1736242449477</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1736242449477</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -172,6 +167,7 @@
     <MESSAGE value="增加了课程页面的功能，不够完善，功能还在添加中。" />
     <MESSAGE value="增加了教师页面得展示" />
     <MESSAGE value="为修改完" />
-    <option name="LAST_COMMIT_MESSAGE" value="为修改完" />
+    <MESSAGE value="一些小更新，为后续实时聊天准备" />
+    <option name="LAST_COMMIT_MESSAGE" value="一些小更新，为后续实时聊天准备" />
   </component>
 </project>
