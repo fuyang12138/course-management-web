@@ -32,22 +32,22 @@
                     <button onclick="toggleList('follows')">关注</button>
                     <div id="friends-list" class="list">
                         {% for friend in friends %}
-                            <div class="contact" onclick="showContactInfo('{{ friend.username }}')" ondblclick="showChatWindow('{{ friend.username }}')">
-                                <img src="{{ friend.avatar_path }}" alt="{{ friend.nickname }} 头像" class="avatar">
+                            <div class="contact" onclick="showContactInfo('{{ friend.username|escape }}')" ondblclick="showChatWindow('{{ friend.username|escape }}')">
+                                <img src="{{ friend.avatar_path|escape }}" alt="{{ friend.nickname|escape }} 头像" class="avatar">
                                 <div class="info">
-                                    <h3>{{ friend.nickname }}</h3>
-                                    <p class="note editable-note" data-full-note="{{ friend.full_note if friend.note.endswith('...') else '' }}" onclick="editNote(this)">{{ friend.note }}</p>
+                                    <h3>{{ friend.nickname|escape }}</h3>
+                                    <p class="note editable-note" data-full-note="{{ friend.full_note|escape if friend.note.endswith('...') else '' }}" onclick="editNote(this)">{{ friend.note|escape }}</p>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
                     <div id="follows-list" class="list" style="display: none;">
                         {% for follow in follows %}
-                            <div class="contact" onclick="showContactInfo('{{ follow.username }}')" ondblclick="showChatWindow('{{ follow.username }}')">
-                                <img src="{{ follow.avatar_path }}" alt="{{ follow.nickname }} 头像" class="avatar">
+                            <div class="contact" onclick="showContactInfo('{{ follow.username|escape }}')" ondblclick="showChatWindow('{{ follow.username|escape }}')">
+                                <img src="{{ follow.avatar_path|escape }}" alt="{{ follow.nickname|escape }} 头像" class="avatar">
                                 <div class="info">
-                                    <h3>{{ follow.nickname }}</h3>
-                                    <p class="note editable-note" data-full-note="{{ follow.full_note if follow.note.endswith('...') else '' }}" onclick="editNote(this)">{{ follow.note }}</p>
+                                    <h3>{{ follow.nickname|escape }}</h3>
+                                    <p class="note editable-note" data-full-note="{{ follow.full_note|escape if follow.note.endswith('...') else '' }}" onclick="editNote(this)">{{ follow.note|escape }}</p>
                                 </div>
                             </div>
                         {% endfor %}
@@ -64,9 +64,25 @@
     </main>
 
     <script>
-        let currentUsername = '{{ current_user }}'; // 从前端模板获取当前用户名
+        // 简单的HTML转义函数，用于客户端数据转义
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        console.log('当前用户名:', '{{ current_user|escape }}');
+        let currentUsername = '{{ current_user|escape }}'; // 从前端模板获取当前用户名
         let receiverUsername = ''; // 接收者的用户名
         let socket = null;
+        let isSocketReady = false; // 标志 WebSocket 是否已经准备好
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 页面加载完成后初始化必要的事件监听器或其他操作
+        });
 
         function toggleList(type) {
             document.getElementById('friends-list').style.display = type === 'friends' ? 'block' : 'none';
@@ -80,9 +96,9 @@
                 .then(data => {
                     const chatMesh = document.getElementById('chat-mesh');
                     chatMesh.innerHTML = `
-                        <h3>${data.nickname}</h3>
+                        <h3>${escapeHtml(data.nickname)}</h3>
                         <div class="bio-scroll">
-                            <p>${data.bio}</p>
+                            <p>${escapeHtml(data.bio)}</p>
                         </div>
                     `;
                 })
@@ -96,14 +112,12 @@
                 .then(data => {
                     const chatMesh = document.getElementById('chat-mesh');
                     chatMesh.innerHTML = `
-                        <h3>${data.nickname}</h3>
+                        <h3>${escapeHtml(data.nickname)}</h3>
                         <div class="bio-scroll">
-                            <p>${data.bio}</p>
+                            <p>${escapeHtml(data.bio)}</p>
                         </div>
                         <div class="chat-area">
-                            <div class="chat-messages" id="chat-messages">
-                                <!-- 聊天消息将在这里显示 -->
-                            </div>
+                            <div class="chat-messages" id="chat-messages"></div>
                             <form onsubmit="sendMessage(event)">
                                 <input type="text" id="message-input" placeholder="输入消息...">
                                 <button type="submit">发送</button>
@@ -111,7 +125,7 @@
                         </div>
                     `;
 
-                    // 初始化 WebSocket 连接
+                    loadHistoryMessages();
                     initWebSocket();
                 })
                 .catch(error => console.error('Error:', error));
@@ -121,10 +135,14 @@
             event.preventDefault();
             const messageInput = document.getElementById('message-input');
             const messageText = messageInput.value.trim();
-            if (messageText) {
-                socket.send(messageText);
-                addMessage(messageText, 'sent'); // 发送方添加消息
+            if (messageText && isSocketReady) { // 检查 WebSocket 是否已经准备好
+                // 假设后端期望一个JSON对象作为消息体
+                const messageObj = { sender: currentUsername, receiver: receiverUsername, content: messageText };
+                socket.send(JSON.stringify(messageObj));
+                addMessage(`${currentUsername}: ${messageText}`, 'sent'); // 发送方添加消息
                 messageInput.value = '';
+            } else if (!isSocketReady) {
+                alert("WebSocket 连接尚未建立，请稍后重试。");
             }
         }
 
@@ -141,11 +159,11 @@
                     searchResults.innerHTML = '';
                     data.contacts.forEach(contact => {
                         searchResults.innerHTML += `
-                            <div class="contact" onclick="showContactInfo('${contact.username}')" ondblclick="showChatWindow('${contact.username}')">
-                                <img src="${contact.avatar_path}" alt="${contact.nickname} 头像" class="avatar">
+                            <div class="contact" onclick="showContactInfo('${escapeHtml(contact.username)}')" ondblclick="showChatWindow('${escapeHtml(contact.username)}')">
+                                <img src="${escapeHtml(contact.avatar_path)}" alt="${escapeHtml(contact.nickname)} 头像" class="avatar">
                                 <div class="info">
-                                    <h3>${contact.nickname}</h3>
-                                    <p class="note editable-note" data-full-note="${contact.full_note || ''}" onclick="editNote(this)">${contact.note}</p>
+                                    <h3>${escapeHtml(contact.nickname)}</h3>
+                                    <p class="note editable-note" data-full-note="${escapeHtml(contact.full_note || '')}" onclick="editNote(this)">${escapeHtml(contact.note)}</p>
                                 </div>
                             </div>
                         `;
@@ -185,29 +203,34 @@
             if (socket) {
                 socket.close();
             }
-            socket = new WebSocket(`ws://localhost:8000/ws/${currentUsername}/${receiverUsername}`);
+            socket = new WebSocket(`ws://${window.location.host}/ws/${currentUsername}/${receiverUsername}`);
 
             socket.onopen = function(event) {
                 console.log('WebSocket 连接已打开');
+                isSocketReady = true; // 设置 WebSocket 已准备好
             };
 
             socket.onmessage = function(event) {
-                const messageData = event.data.split(': ');
-                const sender = messageData[0];
-                const message = messageData[1];
+                try {
+                    const messageData = JSON.parse(event.data); // 尝试解析为JSON对象
+                    const sender = messageData.sender;
+                    const message = messageData.content;
 
-                // 只有当消息来自其他用户时才添加到聊天界面
-                if (sender !== currentUsername) {
-                    addMessage(message, 'received');
+                    // 只有当消息来自其他用户时才添加到聊天界面
+                    addMessage(`${sender}: ${message}`, sender === currentUsername ? 'sent' : 'received');
+                } catch (error) {
+                    console.error('Failed to parse WebSocket message as JSON:', error);
                 }
             };
 
             socket.onerror = function(error) {
                 console.error('WebSocket 错误:', error);
+                isSocketReady = false; // 设置 WebSocket 不再准备好
             };
 
             socket.onclose = function(event) {
-                console.log('WebSocket 连接已关闭');
+                console.log('WebSocket 连接已关闭', event.code, event.reason); // 添加日志
+                isSocketReady = false; // 设置 WebSocket 不再准备好
             };
         }
 
@@ -215,13 +238,28 @@
             const chatMessages = document.getElementById('chat-messages');
             const messageElement = document.createElement('div');
             messageElement.className = `message ${type}`;
-            messageElement.textContent = text;
+            messageElement.textContent = escapeHtml(text); // 使用textContent来防止XSS攻击
             chatMessages.appendChild(messageElement);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function loadHistoryMessages() {
+            try {
+                const response = await fetch(`/get_messages?sender=${encodeURIComponent(currentUsername)}&receiver=${encodeURIComponent(receiverUsername)}`);
+                const messages = await response.json();
+
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML = '';
+
+                messages.forEach(msg => {
+                    const sender = msg.sender;
+                    const content = msg.message; // 修改这里，使用msg.message而不是msg.content
+                    addMessage(`${sender}: ${content}`, sender === currentUsername ? 'sent' : 'received');
+                });
+            } catch (error) {
+                console.error('Error loading history messages:', error);
+            }
         }
     </script>
 </body>
 </html>
-
-
-

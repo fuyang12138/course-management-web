@@ -1,39 +1,67 @@
 from fastapi import APIRouter, Request, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
+import json
 import pandas as pd
+from typing import Dict
 
-from config import FRIENDS_FOLLOW_PATH, INFO_DB_PATH
-from helpers import templates, get_username, merge_notes, save_message, active_connections
+from config import FRIENDS_FOLLOW_PATH, INFO_DB_PATH, CHAT_CSV_FILE_PATH
+from helpers import templates, get_username, merge_notes, save_message, handle_disconnect
 
 router = APIRouter()
+active_connections: Dict[str, Dict[str, WebSocket]] = {}
 
 
 @router.websocket('/ws/{username}/{receiver}')
 async def websocket_endpoint(websocket: WebSocket, username: str, receiver: str):
     await websocket.accept()
+    print(f"WebSocket连接已接受：{username} -> {receiver}")
+
     if username not in active_connections:
         active_connections[username] = {}
     active_connections[username][receiver] = websocket
-    print(f"WebSocket connection established between {username} and {receiver}")
+    print(f"WebSocket连接建立成功：{username} 和 {receiver}")
 
     try:
         while True:
             data = await websocket.receive_text()
-            print(f"Received message from {username}: {data}")
-            await save_message(username, receiver, data)
+            print(f"收到来自{username}的消息: {data}")
+            message_dict = json.loads(data)
+            await save_message(username, receiver, message_dict['content'])
+            message_obj = {
+                'sender': username,
+                'content': message_dict['content']
+            }
             if receiver in active_connections and username in active_connections[receiver]:
                 await active_connections[receiver][username].send_text(f"{username}: {data}")
-                print(f"Sent message to {receiver} from {username}: {data}")
-            if username in active_connections and receiver in active_connections[username]:
-                await active_connections[username][receiver].send_text(f"{username}: {data}")
-                print(f"Sent message to {username} from {username}: {data}")
+                print(f"消息已发送给{receiver}来自{username}: {json.dumps(message_obj)}")
+            else:
+                print(f'接收方{receiver}或其与{username}的连接不存在')
+
+            await websocket.send_text(json.dumps(message_obj))
+            print(f"消息已发送给自己{username}来自{username}: {message_obj['content']}")
     except WebSocketDisconnect:
-        if username in active_connections and receiver in active_connections[username]:
-            del active_connections[username][receiver]
-            print(f"Removed WebSocket connection for {username} -> {receiver}")
-        if username in active_connections and not active_connections[username]:
-            del active_connections[username]
-            print(f"All connections for {username} removed")
+        print(f"检测到WebSocket断开连接：{username} -> {receiver}")
+        await handle_disconnect(username, receiver)
+
+
+@router.get('/get_messages', response_model=list)
+async def get_messages(sender: str, receiver: str):
+    """
+    获取历史消息
+    :param sender: 发送者用户名
+    :param receiver: 接收者用户名
+    :return: 历史消息列表
+    """
+    try:
+        df_chat = pd.read_csv(CHAT_CSV_FILE_PATH)
+        messages_ = df_chat[
+            ((df_chat['sender'] == sender) & (df_chat['receiver'] == receiver)) |
+            ((df_chat['sender'] == receiver) & (df_chat['receiver'] == sender))
+        ]
+        messages_sorted = messages_.sort_values(by='timestamp').to_dict('records')
+        return messages_sorted
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'无法读取文件：{e}')
 
 
 @router.get('/messages', response_class=HTMLResponse)
@@ -68,7 +96,10 @@ async def messages(request: Request):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'无法读取文件：{e}')
     return templates.TemplateResponse('friends_follow.html', {
-        'request': request, 'friends': friends_with_notes, 'follows': follows_with_notes
+        'request': request,
+        'friends': friends_with_notes,
+        'follows': follows_with_notes,
+        'current_user': current_user
     })
 
 

@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="一些小更新，为后续实时聊天准备">
-      <change afterPath="$PROJECT_DIR$/db/chat.csv" afterDir="false" />
+    <list default="true" id="d8702a4c-e07a-43ec-8692-7df59161acb7" name="更改" comment="存在bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/friends_follow.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/friends_follow.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/chat.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db/chat.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/friends_follow_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/friends_follow_routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/friends_follow.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/friends_follow.html" afterDir="false" />
@@ -151,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736318677780</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="存在bug">
+      <option name="closed" value="true" />
+      <created>1736329124298</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1736329124298</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -179,6 +185,7 @@
     <MESSAGE value="增加了教师页面得展示" />
     <MESSAGE value="为修改完" />
     <MESSAGE value="一些小更新，为后续实时聊天准备" />
-    <option name="LAST_COMMIT_MESSAGE" value="一些小更新，为后续实时聊天准备" />
+    <MESSAGE value="存在bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="存在bug" />
   </component>
 </project>

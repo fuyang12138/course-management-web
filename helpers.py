@@ -2,14 +2,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 import os
-import csv
+import asyncio
 import pandas as pd
 from datetime import datetime
 
 from config import USER_DB_PATH, INFO_DB_PATH, BASE_DIR, AVATAR_DIR, CHAT_CSV_FILE_PATH
 
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, 'templates'))
-active_connections = {}
 
 
 def mount_static(app):
@@ -88,6 +87,29 @@ def merge_notes(contacts, df_contacts):
 
 async def save_message(sender, receiver, message):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    with open(CHAT_CSV_FILE_PATH, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow([timestamp, sender, receiver, message])
+    new_message_df = pd.DataFrame({
+        'timestamp': [timestamp],
+        'sender': [sender],
+        'receiver': [receiver],
+        'message': [message]
+    })
+
+    loop = asyncio.get_running_loop()
+
+    try:
+        chat_df = await loop.run_in_executor(None, pd.read_csv, CHAT_CSV_FILE_PATH)
+        updated_chat_df = pd.concat([chat_df, new_message_df], ignore_index=True)
+    except FileNotFoundError:
+        updated_chat_df = new_message_df
+
+    await loop.run_in_executor(None, lambda: updated_chat_df.to_csv(CHAT_CSV_FILE_PATH, index=False))
+
+
+async def handle_disconnect(username: str, receiver: str):
+    from friends_follow_routes import active_connections
+    if username in active_connections and receiver in active_connections[username]:
+        del active_connections[username][receiver]
+        print(f'移除WebSocket连接：{username} -> {receiver}')
+        if not active_connections[username]:
+            del active_connections[username]
+            print(f'用户{username}的所有连接已移除')
