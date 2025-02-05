@@ -20,25 +20,33 @@ async def websocket_endpoint(websocket: WebSocket, username: str, receiver: str)
         active_connections[username] = {}
     active_connections[username][receiver] = websocket
     print(f"WebSocket连接建立成功：{username} 和 {receiver}")
+    print(f'当前连接状态：{active_connections}')
 
     try:
         while True:
             data = await websocket.receive_text()
             print(f"收到来自{username}的消息: {data}")
             message_dict = json.loads(data)
+            content = message_dict.get('content')
             await save_message(username, receiver, message_dict['content'])
+
+            if not content:
+                print('消息为空')
+                continue
+
             message_obj = {
                 'sender': username,
-                'content': message_dict['content']
+                'receiver': receiver,
+                'content': content
             }
-            if receiver in active_connections and username in active_connections[receiver]:
-                await active_connections[receiver][username].send_text(f"{username}: {data}")
+            print(f'即将发送的消息对象：{json.dumps(message_obj)}')
+            print(f'当前连接状态：{active_connections}')
+
+            if receiver in active_connections[username]:
+                await active_connections[username][receiver].send_text(json.dumps(message_obj))
                 print(f"消息已发送给{receiver}来自{username}: {json.dumps(message_obj)}")
             else:
                 print(f'接收方{receiver}或其与{username}的连接不存在')
-
-            await websocket.send_text(json.dumps(message_obj))
-            print(f"消息已发送给自己{username}来自{username}: {message_obj['content']}")
     except WebSocketDisconnect:
         print(f"检测到WebSocket断开连接：{username} -> {receiver}")
         await handle_disconnect(username, receiver)
